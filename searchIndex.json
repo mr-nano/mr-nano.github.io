@@ -45,5 +45,13 @@
 		"url":"/",
 		"content": "Aathiti Devo Bhava. I invite you to walk with me on my journey of transforming Smriti (external knowledge) to Shruti (inner voice). I intend to do this via writing.\nBlogs\n\nFile\n\n<a class=\"internal-link\" data-note-icon=\"\" href=\"/blog-data-debt-the-sinister-cousin-of-tech-debt/\">Blog - Data debt - the sinister cousin of Tech Debt</a>\n\nIndex\nObservability\n\nFile\nlast modified time\n\n<a class=\"internal-link is-unresolved\" href=\"/404\">service level agreement</a>\n8:05 PM - May 06, 2024\n\n<a class=\"internal-link is-unresolved\" href=\"/404\">Service level objectives</a>\n7:39 PM - May 06, 2024\n\n<a class=\"internal-link\" data-note-icon=\"\" href=\"/service-level-indicators/\">Service level indicators</a>\n1:25 AM - May 07, 2024\n\nData Engineering\n\nFile\nlast modified time\n\n<a class=\"internal-link\" data-note-icon=\"\" href=\"/service-level-indicators-for-data-products/\">Service level indicators for Data products</a>\n1:28 PM - May 07, 2024\n\n<a class=\"internal-link is-unresolved\" href=\"/404\">Operational Data Debt</a>\n1:28 PM - May 07, 2024\n\n<a class=\"internal-link\" data-note-icon=\"\" href=\"/data-product/\">Data product</a>\n1:28 PM - May 07, 2024\n\n<a class=\"internal-link\" data-note-icon=\"\" href=\"/data-product-types/\">Data Product Types</a>\n1:28 PM - May 07, 2024\n\n<a class=\"internal-link is-unresolved\" href=\"/404\">Data Product - Observability</a>\n1:28 PM - May 07, 2024\n\nPublishing My Extended Brain\nTechnical musings\n\n<a class=\"internal-link\" data-note-icon=\"\" href=\"/blog-data-debt-the-sinister-cousin-of-tech-debt/\">Blog - Data debt - the sinister cousin of Tech Debt</a>\n\nAppendix\n\n<a class=\"internal-link is-unresolved\" href=\"/404\">Who's and What's behind the effort</a>",
 		"tags": [ "note","gardenEntry"]
+},
+
+{
+		"title": "Static Site publishing platforms",
+		"date":"Tue May 07 2024 15:58:35 GMT+0530 (India Standard Time)",
+		"url":"/static-site-publishing-platforms/",
+		"content": "Vercel\n\n100 deploys a day problem\n\nNetlify\nAWS Amplify\nGithub pages\n\n.nojekyll file\n\nTags\n#tagme",
+		"tags": ["tagme", "note"]
 }
 ]

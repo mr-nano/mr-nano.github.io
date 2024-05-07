@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Blog - Data debt - the sinister cousin of Tech Debt</title>
+    <title>Static Site publishing platforms</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://fastly.jsdelivr.net/npm/mermaid@9.4.0/dist/mermaid.min.js"></script>
 <script>
@@ -143,7 +143,7 @@
     
         <div x-show="isOpen" style="display:none" class="">
             
-                <div @click.stop class="notelink active-note"><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/blog-data-debt-the-sinister-cousin-of-tech-debt/">Blog - Data debt - the sinister cousin of Tech Debt </a>
+                <div @click.stop class="notelink "><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/blog-data-debt-the-sinister-cousin-of-tech-debt/">Blog - Data debt - the sinister cousin of Tech Debt </a>
                 </div>
             
         </div>
@@ -188,7 +188,7 @@
     
         <div x-show="isOpen" style="display:none" class="">
             
-                <div @click.stop class="notelink "><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/static-site-publishing-platforms/">Static Site publishing platforms </a>
+                <div @click.stop class="notelink active-note"><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/static-site-publishing-platforms/">Static Site publishing platforms </a>
                 </div>
             
         </div>
@@ -629,207 +629,22 @@
       </header>
       
       
-      <p>I have always been gravitated towards the idea of tech debt. So not surprisingly, recently I found myself meditating over data debt.</p>
-<h1 id="data-debt-is-the-sinister-cousin-of-tech-debt" tabindex="-1">Data debt is the sinister cousin of tech debt</h1>
-<p>Data debt, a much sinister cousin of tech debt - can have far graver impact than the latter. So much so that I believe we might need a different metaphor for it.</p>
-<h2 id="tech-debt-is-local-data-debt-leaks-to-customer" tabindex="-1">Tech debt is local, data debt leaks to customer</h2>
-<p>While tech debt is local to the product delivery team, something that erodes predictability and hampers developer experience. Data debt on other hand can potentially erode customer trust and hamper business! It's a monster of another scale<br>
-<picture src="/img/user/pictures/Picture%20-%20Tech%20debt%20vs%20Data%20debt%20-%20Pasted%20image%2020240504154634.png" alt="Picture - Tech debt vs Data debt - Pasted image 20240504154634.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/7Zn553Hbo2-1402.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/7Zn553Hbo2-1402.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Tech%20debt%20vs%20Data%20debt%20-%20Pasted%20image%2020240504154634.png"
-      alt="Picture - Tech debt vs Data debt - Pasted image 20240504154634.png"
-      width=""
-      ></picture></p>
-<p>the scope and surface area of data debt is just larger. One reason is because there are more data worker personas, and the debt can impacts each persona differently.<br>
-<picture src="/img/user/pictures/Picutre%20-%20Scope%20of%20tech%20debt%20vs%20data%20debt%20-%20Pasted%20image%2020240504154657.png" alt="Picutre - Scope of tech debt vs data debt - Pasted image 20240504154657.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/jkpjvgRUtt-1596.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/jkpjvgRUtt-1596.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picutre%20-%20Scope%20of%20tech%20debt%20vs%20data%20debt%20-%20Pasted%20image%2020240504154657.png"
-      alt="Picutre - Scope of tech debt vs data debt - Pasted image 20240504154657.png"
-      width=""
-      ></picture></p>
-<h1 id="what-is-data-debt" tabindex="-1">What is Data debt</h1>
-<p>Its accumulation of (intentional or an unintentional) shortcomings introduced in the data system that erodes quality, and trust in data or a part of the data system, hence directly impacting atleast one of the data worker or worse, an end user.</p>
-<p>Who are these data workers? Well we have your truly, the data engineer. But the data debt impacts machine learning engineer bit differently. It impacts data analyst differently. It impacts BI developer differently etc<br>
-<picture src="/img/user/pictures/Picture%20-%20Data%20workers%20-%20Pasted%20image%2020240504154749.png" alt="Picture - Data workers - Pasted image 20240504154749.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/0TqJJru1jF-859.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/0TqJJru1jF-859.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Data%20workers%20-%20Pasted%20image%2020240504154749.png"
-      alt="Picture - Data workers - Pasted image 20240504154749.png"
-      width=""
-      ></picture></p>
-<h1 id="data-debt-growth-over-time" tabindex="-1">Data debt growth over time</h1>
-<p>Another dimension to consider about data debt is how it has grown over the last decade or so. I believe when the world had mostly monolithic deployments, the data model was guided by extensive ER modeling.</p>
-<p><picture src="/img/user/pictures/Picture%20-%20How%20data%20debt%20is%20rising%20-%20Pasted%20image%2020240504154819.png" alt="Picture - How data debt is rising - Pasted image 20240504154819.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/Pm3LATco49-821.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/Pm3LATco49-821.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20How%20data%20debt%20is%20rising%20-%20Pasted%20image%2020240504154819.png"
-      alt="Picture - How data debt is rising - Pasted image 20240504154819.png"
-      width=""
-      ></picture></p>
-<p>I'm reminded of my mentor's comment back in late 2013 - 'Dhruv', he said. 'the work has changed so much. Just couple of years ago, the walls were covered in large DB diagrams, and now they're invisible'<br>
-<picture src="/img/user/pictures/Picture%20-%20Vanishing%20data%20modeling%20-%20Pasted%20image%2020240504154833.png" alt="Picture - Vanishing data modeling - Pasted image 20240504154833.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/58Q61Lx_8s-1061.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/58Q61Lx_8s-1061.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Vanishing%20data%20modeling%20-%20Pasted%20image%2020240504154833.png"
-      alt="Picture - Vanishing data modeling - Pasted image 20240504154833.png"
-      width=""
-      ></picture></p>
-<h1 id="data-debt-is-difficult-to-encapsulate" tabindex="-1">Data debt is difficult to encapsulate</h1>
-<p>I guess he was talking about the problem in making - the data architecture just couldn't keep pace with the product cycle times. Product development had a way to control the impact of tech debt, to an extent each can be contained within its own microservice.</p>
-<p><picture src="/img/user/pictures/Picture%20-%20Microservices%20contain%20tech%20debt%20-%20Pasted%20image%2020240504154848.png" alt="Picture - Microservices contain tech debt - Pasted image 20240504154848.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/2OKT0Fznf0-506.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/2OKT0Fznf0-506.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Microservices%20contain%20tech%20debt%20-%20Pasted%20image%2020240504154848.png"
-      alt="Picture - Microservices contain tech debt - Pasted image 20240504154848.png"
-      width=""
-      ></picture></p>
-<p>But data debt, is a monster of another scale. Since the value of data is derived by joining or in other words when its complete, any potential problems just keep multiplying throughout this data value stream pipeline.<br>
-<picture src="/img/user/pictures/Picture%20-%20Data%20debt%20gets%20multiplied%20-%20Pasted%20image%2020240504154906.png" alt="Picture - Data debt gets multiplied - Pasted image 20240504154906.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/t2oUZR5ezu-976.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/t2oUZR5ezu-976.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Data%20debt%20gets%20multiplied%20-%20Pasted%20image%2020240504154906.png"
-      alt="Picture - Data debt gets multiplied - Pasted image 20240504154906.png"
-      width=""
-      ></picture></p>
-<h1 id="identification-of-debt" tabindex="-1">Identification of debt</h1>
-<p>However during the decade of growth at all costs, data modeling had been degraded to a 2nd class citizen. And almost a decade later, the enterprise experiences all kind of related pains. To identify this pain or debt, one can look at 3 lens - functional, operational and structural.<br>
-<picture src="/img/user/pictures/Picture%20-%20Different%20lens%20to%20view%20data%20debt%20-%20Pasted%20image%2020240504154918.png" alt="Picture - Different lens to view data debt - Pasted image 20240504154918.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/SgCXvYL7yw-925.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/SgCXvYL7yw-925.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Different%20lens%20to%20view%20data%20debt%20-%20Pasted%20image%2020240504154918.png"
-      alt="Picture - Different lens to view data debt - Pasted image 20240504154918.png"
-      width=""
-      ></picture></p>
-<p>Functional data debt will lead to bugs, as they somehow compromise with the accuracy of the system. These impact customer directly. Missing data, incorrect data, insufficient test cases or lack of data contracts - are all examples of functional debt.<br>
-<picture src="/img/user/pictures/Picture%20-%20Functional%20debt%20-%20Pasted%20image%2020240504155007.png" alt="Picture - Functional debt - Pasted image 20240504155007.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/oVvSKCilP--791.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/oVvSKCilP--791.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Functional%20debt%20-%20Pasted%20image%2020240504155007.png"
-      alt="Picture - Functional debt - Pasted image 20240504155007.png"
-      width=""
-      ></picture></p>
-<p>Operational debt impacts a cross functional requirement - like dead or unused data wasting space, or under-utilized computing resources wasting money. Or poor handling of PII data causing issues with compliance.</p>
-<p><picture src="/img/user/pictures/Picture%20-%20Operational%20debt%20-%20Pasted%20image%2020240504155022.png" alt="Picture - Operational debt - Pasted image 20240504155022.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/KDkugfE-Fi-791.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/KDkugfE-Fi-791.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Operational%20debt%20-%20Pasted%20image%2020240504155022.png"
-      alt="Picture - Operational debt - Pasted image 20240504155022.png"
-      width=""
-      ></picture></p>
-<p>Structural debt impacts some kind of data value creator - be it data engineer, machine learning engineer or analyst. Lack or outdated documentation, duplication, overly complex ETL or transformations - all this impacts cycle time, job satisfaction etc</p>
-<p><picture src="/img/user/pictures/Picture%20-%20Structural%20debt%20-%20Pasted%20image%2020240504155034.png" alt="Picture - Structural debt - Pasted image 20240504155034.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/9rYM3Xd9HH-791.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/9rYM3Xd9HH-791.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Structural%20debt%20-%20Pasted%20image%2020240504155034.png"
-      alt="Picture - Structural debt - Pasted image 20240504155034.png"
-      width=""
-      ></picture></p>
-<h1 id="tracking-and-acting-on-data-debt" tabindex="-1">Tracking and acting on data debt</h1>
-<p>The word tech debt was likely motivated from financial industry. A debt has principal and an interest rate. The principal is the cost of original decision, the interest rate is rather floating and changes with requirements.<br>
-Some debt is virtually free, and other is a very high interest loan - a hotspot in code that changes frequently. Hence I believe that quantifying tech debt as a single metric (number of days it'll take to fix it) is not really helpful.<br>
-However tracking and prioritizing amongst conflicting priorities remains a key. A useful framework I have seen for prioritsing traditional tech debt is classifying them on a plane - one axis of pain, and one axis of effort.</p>
-<p><picture src="/img/user/pictures/Picture%20-%20Basic%20framework%20to%20prioritize%20tech%20debt%20-%20Pasted%20image%2020240504155108.png" alt="Picture - Basic framework to prioritize tech debt - Pasted image 20240504155108.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/Oy3zBIEc6L-697.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/Oy3zBIEc6L-697.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Basic%20framework%20to%20prioritize%20tech%20debt%20-%20Pasted%20image%2020240504155108.png"
-      alt="Picture - Basic framework to prioritize tech debt - Pasted image 20240504155108.png"
-      width=""
-      ></picture></p>
-<p>Since data debt is more multi faceted than tech debt - I recommend extending this framework to classify per role or atleast per lens.</p>
-<p><picture src="/img/user/pictures/Picture%20-%20Debt%20from%20different%20perspectives%20-%20Pasted%20image%2020240504155119.png" alt="Picture - Debt from different perspectives - Pasted image 20240504155119.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/uyXqDZEEbS-1600.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/uyXqDZEEbS-1600.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20Debt%20from%20different%20perspectives%20-%20Pasted%20image%2020240504155119.png"
-      alt="Picture - Debt from different perspectives - Pasted image 20240504155119.png"
-      width=""
-      ></picture></p>
-<p>Another useful inquiry is what kind of requirement pressure (during the sprint, or quarter) will shuffle the debt into other quadrant - this conversation will give visibility to business on what kind of changes will be hard.</p>
-<p><picture src="/img/user/pictures/Picture%20-%20What%20factors%20move%20the%20debt%20-%20Pasted%20image%2020240504155130.png" alt="Picture - What factors move the debt - Pasted image 20240504155130.png"><source       media="(max-width:480px)"
-      srcset="/img/optimized/qf4araOyUG-697.webp"
-      type="image/webp"
-      >
-      <source       media="(max-width:480px)"
-      srcset="/img/optimized/qf4araOyUG-697.jpeg"
-      >
-      <img       class="full-width zoom"
-      src="/img/user/pictures/Picture%20-%20What%20factors%20move%20the%20debt%20-%20Pasted%20image%2020240504155130.png"
-      alt="Picture - What factors move the debt - Pasted image 20240504155130.png"
-      width=""
-      ></picture></p>
-<h1 id="concluding-thoughts" tabindex="-1">Concluding thoughts</h1>
-<p>In conclusion - Don't ignore data debt. If data is oil, data debt is contamination. At some point in time unaddressed data debt can bring the running enterprise to a halt!<br>
-Data debt, like tech debt will always exist. We need to identify it, track its impact &amp; address it accordingly. We need better tools to assist with this monstrous task. Addressing this in sprint, providing dedicated bandwidth &amp; having conversations around it will be a good start</p>
-<h1 id="tags" tabindex="-1">Tags</h1>
+      <ul>
+<li>Vercel
 <ul>
-<li><a class="tag" onclick="toggleTagSearch(this)" data-content="#blog">#blog</a></li>
+<li>100 deploys a day problem</li>
 </ul>
+</li>
+<li>Netlify</li>
+<li>AWS Amplify</li>
+<li>Github pages
+<ul>
+<li><code>.nojekyll</code> file</li>
+</ul>
+</li>
+</ul>
+<h1 id="tags" tabindex="-1">Tags</h1>
+<p><a class="tag" onclick="toggleTagSearch(this)" data-content="#tagme">#tagme</a></p>
 
       
       
@@ -1070,33 +885,6 @@ Data debt, like tech debt will always exist. We need to identify it, track its i
                                           <nav class="toc">
                 <ol>
                     
-                    <li><a href="#data-debt-is-the-sinister-cousin-of-tech-debt">Data debt is the sinister cousin of tech debt</a>
-            
-                <ol>
-                    
-                    <li><a href="#tech-debt-is-local-data-debt-leaks-to-customer">Tech debt is local, data debt leaks to customer</a>
-            		</li>
-                </ol>
-            		</li>
-
-                    <li><a href="#what-is-data-debt">What is Data debt</a>
-            		</li>
-
-                    <li><a href="#data-debt-growth-over-time">Data debt growth over time</a>
-            		</li>
-
-                    <li><a href="#data-debt-is-difficult-to-encapsulate">Data debt is difficult to encapsulate</a>
-            		</li>
-
-                    <li><a href="#identification-of-debt">Identification of debt</a>
-            		</li>
-
-                    <li><a href="#tracking-and-acting-on-data-debt">Tracking and acting on data debt</a>
-            		</li>
-
-                    <li><a href="#concluding-thoughts">Concluding thoughts</a>
-            		</li>
-
                     <li><a href="#tags">Tags</a>
             		</li>
                 </ol>
@@ -1111,8 +899,9 @@ Data debt, like tech debt will always exist. We need to identify it, track its i
                               
                               <div class="backlinks">
                                     <div class="backlink-title" style="margin: 4px 0 !important;">Pages mentioning this page</div>
-                                          <div class="backlink-list"><div class="backlink-card"><i  icon-name="link"></i><a href="/" data-note-icon="" class="backlink">🏠 Start Here</a>
-                                                </div></div>
+                                          <div class="backlink-list"><div class="backlink-card">
+                                                            <span class="no-backlinks-message">No other pages mentions this page</span>
+                                                      </div></div>
                               </div>
                         
                   
