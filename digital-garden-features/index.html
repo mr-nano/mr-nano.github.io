@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Digital Garden Features</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://fastly.jsdelivr.net/npm/mermaid@9.4.0/dist/mermaid.min.js"></script>
+<script>
+    mermaid.initialize({
+        startOnLoad: true,
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-sv0slik/5O0JIPdLBCR2A3XDg/1U3WuDEheZfI/DI5n8Yqc3h5kjrnr46FGBNiUAJF7rE4LHKwQ/SoSLRKAxEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.115.0/dist/umd/lucide.min.js"></script>
+<script>
+    // Create callout icons
+    window.addEventListener("load", () => {
+        document.querySelectorAll(".callout").forEach((elem) => {
+            const icon = getComputedStyle(elem).getPropertyValue('--callout-icon');
+            const iconName = icon && icon.trim().replace(/^lucide-/, "");
+
+            if (iconName) {
+                const calloutTitle = elem.querySelector(".callout-title");
+
+                if (calloutTitle) {
+                    const calloutIconContainer = document.createElement("div");
+                    const calloutIcon = document.createElement("i");
+
+                    calloutIconContainer.appendChild(calloutIcon);
+                    calloutIcon.setAttribute("icon-name", iconName);
+                    calloutIconContainer.setAttribute("class", "callout-icon");
+                    calloutTitle.insertBefore(calloutIconContainer, calloutTitle.firstChild);
+                }
+            }
+        });
+
+        lucide.createIcons();
+
+        // Collapse callouts
+        Array.from(document.querySelectorAll(".callout.is-collapsible")).forEach((elem) => {
+            elem.querySelector('.callout-title').addEventListener("click", (event) => {
+                if (elem.classList.contains("is-collapsed")) {
+                    elem.classList.remove("is-collapsed");
+                } else {
+                    elem.classList.add("is-collapsed");
+                }
+            });
+        });
+    });
+</script>
+
+
+<script src="https://fastly.jsdelivr.net/npm/force-graph@1.43.0/dist/force-graph.min.js"></script>
+
+<script defer src="https://fastly.jsdelivr.net/npm/@alpinejs/persist@3.11.1/dist/cdn.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js" defer></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="https://fastly.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<link href="/styles/digital-garden-base.css" rel="stylesheet">
+    <link href="/styles/obsidian-base.css" rel="stylesheet">
+    <link href="/styles/_theme.bb304942.css" rel="stylesheet">
+
+
+<link href="/styles/custom-style.css" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+
+
+
+
+
+<style></style>
+    
+    
+  </head>
+  <body class="theme-dark markdown-preview-view markdown-rendered markdown-preview-section ">
+    
+    
+    
+      
+    
+    <div x-init="isDesktop = (window.innerWidth>=1400) ? true: false;" 
+            x-on:resize.window="isDesktop = (window.innerWidth>=1400) ? true : false;" 
+            x-data="{isDesktop: true, showFilesMobile: false}">
+
+        <div x-show.important="!isDesktop" style="display: none;">
+            <nav class="navbar">
+    <div class="navbar-inner">
+        <span style="font-size: 1.5rem; margin-right: 10px;" @click="showFilesMobile=!showFilesMobile"><i  icon-name="menu"></i></span>
+        
+        <a href="/" style="text-decoration: none;">
+            <h1 style="margin: 15px !important;">S2S</h1>
+        </a>
+        
+    </div>
+    
+    
+        <div class="search-button align-icon" onclick="toggleSearch()">
+    <span class="search-icon">
+        <i icon-name="search" ></i>
+    </span>
+    <span class="search-text">
+        <span>Search</span>
+        <span style="font-size: 0.6rem; padding: 2px 2px 0 6px; text-align:center; transform: translateY(4px);" class="search-keys">
+            CTRL + K
+        </span>
+    </span>
+</div>
+    
+</nav>
+        </div>
+        
+        <div x-show="showFilesMobile && !isDesktop" @click="showFilesMobile = false" style="display:none;" class="fullpage-overlay"></div>
+
+      <nav class="filetree-sidebar"  x-show.important="isDesktop || showFilesMobile" style="display: none;">
+        
+         <a href="/" style="text-decoration: none;">
+               <h1 style="text-align:center;">S2S</h1>
+         </a>
+         
+        
+            <div style="display: flex; justify-content: center;">
+                <div class="search-button align-icon" onclick="toggleSearch()">
+    <span class="search-icon">
+        <i icon-name="search" ></i>
+    </span>
+    <span class="search-text">
+        <span>Search</span>
+        <span style="font-size: 0.6rem; padding: 2px 2px 0 6px; text-align:center; transform: translateY(4px);" class="search-keys">
+            CTRL + K
+        </span>
+    </span>
+</div>
+            </div>
+        
+         <div class="folder" x-data="{isOpen: true}">
+    
+        <div x-show="isOpen" style="display:none" class="">
+            
+                <div @click.stop class="notelink "><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/blog-data-debt-the-sinister-cousin-of-tech-debt/">Blog - Data debt - the sinister cousin of Tech Debt </a>
+                </div>
+            
+        </div>
+        
+    
+    
+        <div x-show="isOpen" style="display:none" class="">
+            
+                <div @click.stop class="notelink "><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/data-product-types/">Data Product Types </a>
+                </div>
+            
+        </div>
+        
+    
+    
+        <div x-show="isOpen" style="display:none" class="">
+            
+                <div @click.stop class="notelink "><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/data-product/">Data product </a>
+                </div>
+            
+        </div>
+        
+    
+    
+        <div x-show="isOpen" style="display:none" class="">
+            
+                <div @click.stop class="notelink active-note"><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/digital-garden-features/">Digital Garden Features </a>
+                </div>
+            
+        </div>
+        
+    
+    
+        <div x-show="isOpen" style="display:none" class="">
+            
+                <div @click.stop class="notelink "><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/service-level-indicators-for-data-products/">Service level indicators for Data products </a>
+                </div>
+            
+        </div>
+        
+    
+    
+        <div x-show="isOpen" style="display:none" class="">
+            
+                <div @click.stop class="notelink "><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/service-level-indicators/">Service level indicators </a>
+                </div>
+            
+        </div>
+        
+    
+    
+        <div x-show="isOpen" style="display:none" class="">
+            
+                <div @click.stop class="notelink "><i icon-name="sticky-note" aria-hidden="true"></i><a data-note-icon="" style="text-decoration: none;" class="filename" href="/">🏠 Start Here </a>
+                </div>
+            
+        </div>
+        
+    </div>
+      </nav>
+    </div>
+
+    
+
+    
+      <div class="search-container" id="globalsearch" onclick="toggleSearch()">
+    <div class="search-box">
+        <input type="search" id="term" placeholder="Start typing...">
+        <div id="search-results"></div>
+        <footer class="search-box-footer">
+            <div class="navigation-hint">
+                <span>Enter to select</span>
+            </div>
+
+            <div class="navigation-hint align-icon">
+                <i  icon-name="arrow-up" aria-hidden="true"></i>
+                <i  icon-name="arrow-down" aria-hidden="true"></i>
+                <span>to navigate</span>
+            </div>
+
+            <div class="navigation-hint">
+                <span>ESC to close</span>
+            </div>
+
+        </footer>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/flexsearch@0.7.21/dist/flexsearch.bundle.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', init, false);
+    document.addEventListener('DOMContentLoaded', setCorrectShortcut, false);
+
+    window.toggleSearch = function () {
+        if (document.getElementById('globalsearch').classList.contains('active')) {
+            document
+                .getElementById('globalsearch')
+                .classList
+                .remove('active');
+        } else {
+            document
+                .getElementById('globalsearch')
+                .classList
+                .add('active');
+            document
+                .getElementById('term')
+                .focus();
+        }
+    }
+
+    window.toggleTagSearch = function (evt) {
+        console.log(evt.textContent);
+        const term = evt.textContent;
+        if (term) {
+            window
+                .document
+                .getElementById('term')
+                .value = term.trim();
+            window.toggleSearch();
+            window.search();
+        }
+    }
+
+    const loadingSvg = `
+    <svg width="100" height="100" viewBox="0 0 45 45" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
+      <g fill="none" fill-rule="evenodd" transform="translate(1 1)" stroke-width="2">
+          <circle cx="22" cy="22" r="6" stroke-opacity="0">
+              <animate attributeName="r"
+                   begin="1.5s" dur="3s"
+                   values="6;22"
+                   calcMode="linear"
+                   repeatCount="indefinite" />
+              <animate attributeName="stroke-opacity"
+                   begin="1.5s" dur="3s"
+                   values="1;0" calcMode="linear"
+                   repeatCount="indefinite" />
+              <animate attributeName="stroke-width"
+                   begin="1.5s" dur="3s"
+                   values="2;0" calcMode="linear"
+                   repeatCount="indefinite" />
+          </circle>
+          <circle cx="22" cy="22" r="6" stroke-opacity="0">
+              <animate attributeName="r"
+                   begin="3s" dur="3s"
+                   values="6;22"
+                   calcMode="linear"
+                   repeatCount="indefinite" />
+              <animate attributeName="stroke-opacity"
+                   begin="3s" dur="3s"
+                   values="1;0" calcMode="linear"
+                   repeatCount="indefinite" />
+              <animate attributeName="stroke-width"
+                   begin="3s" dur="3s"
+                   values="2;0" calcMode="linear"
+                   repeatCount="indefinite" />
+          </circle>
+          <circle cx="22" cy="22" r="8">
+              <animate attributeName="r"
+                   begin="0s" dur="1.5s"
+                   values="6;1;2;3;4;5;6"
+                   calcMode="linear"
+                   repeatCount="indefinite" />
+          </circle>
+      </g>
+  </svg>`;
+
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+            var context = this,
+                args = arguments;
+            var later = function () {
+                timeout = null;
+                if (!immediate) 
+                    func.apply(context, args);
+                };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) 
+                func.apply(context, args);
+            };
+    };
+
+    function setCorrectShortcut() {
+        if (navigator.platform.toUpperCase().indexOf('MAC') >= 0) {
+            document
+                .querySelectorAll(".search-keys")
+                .forEach(x => x.innerHTML = "⌘ + K");
+        }
+    }
+
+    function createIndex(posts) {
+        const encoder = (str) => str
+            .toLowerCase()
+            .split(/([^a-z]|[^\x00-\x7F])/)
+        const contentIndex = new FlexSearch.Document({
+            cache: true,
+            charset: "latin:extra",
+            optimize: true,
+            index: [
+                {
+                    field: "content",
+                    tokenize: "reverse",
+                    encode: encoder
+                }, {
+                    field: "title",
+                    tokenize: "forward",
+                    encode: encoder
+                }, {
+                    field: "tags",
+                    tokenize: "forward",
+                    encode: encoder
+                }
+            ]
+        })
+        posts.forEach((p, idx) => {
+            contentIndex.add({
+                id: idx, title: p.title, content: p.content, tags: p.tags //Change to removeHTML
+            })
+        });
+        return contentIndex;
+    }
+
+    async function init() {
+        //init offline search index
+
+        const searchIndexDate = '2024-05-07T05:55:40.906Z';
+        let shouldFetch = true;
+        if(localStorage.getItem("searchIndex")) {
+            let {date, docs}= JSON.parse(localStorage.getItem('searchIndex'));
+            if(date === searchIndexDate){
+                shouldFetch = false;
+                let index = createIndex(docs);
+                window.docs = docs
+                window.index = index;
+            }        
+        }
+        if(shouldFetch){
+            let docs = await(await fetch('/searchIndex.json?v=2024-05-07T05:55:40.906Z')).json();
+            let index = createIndex(docs);
+            localStorage.setItem("searchIndex", JSON.stringify({date: '2024-05-07T05:55:40.906Z', docs}));
+            window.docs = docs
+            window.index = index;
+        }
+
+        //open searchmodal when ctrl + k is pressed, cmd + k on mac
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                toggleSearch();
+            }
+            if (e.key === 'Escape') {
+                document
+                    .getElementById('globalsearch')
+                    .classList
+                    .remove('active');
+            }
+
+            //navigate search results with arrow keys
+            if (document.getElementById('globalsearch').classList.contains('active')) {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    let active = document.querySelector('.searchresult.active');
+                    if (active) {
+                        active
+                            .classList
+                            .remove('active');
+                        if (active.nextElementSibling) {
+                            active
+                                .nextElementSibling
+                                .classList
+                                .add('active');
+                        } else {
+                            document
+                                .querySelector('.searchresult')
+                                .classList
+                                .add('active');
+                        }
+                    } else {
+                        document
+                            .querySelector('.searchresult')
+                            .classList
+                            .add('active');
+                    }
+
+                    let currentActive = document.querySelector('.searchresult.active');
+                    if (currentActive) {
+                        currentActive.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'start'});
+                    }
+                }
+                if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    let active = document.querySelector('.searchresult.active');
+                    if (active) {
+                        active
+                            .classList
+                            .remove('active');
+                        if (active.previousElementSibling) {
+                            active
+                                .previousElementSibling
+                                .classList
+                                .add('active');
+                        } else {
+                            document
+                                .querySelectorAll('.searchresult')
+                                .forEach((el) => {
+                                    if (!el.nextElementSibling) {
+                                        el
+                                            .classList
+                                            .add('active');
+                                    }
+                                });
+                        }
+                    } else {
+                        document
+                            .querySelectorAll('.searchresult')
+                            .forEach((el) => {
+                                if (el.nextElementSibling) {
+                                    el
+                                        .classList
+                                        .add('active');
+                                }
+                            });
+                    }
+
+                    let currentActive = document.querySelector('.searchresult.active');
+                    if (currentActive) {
+                        currentActive.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'start'});
+                    }
+
+                }
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    let active = document.querySelector('.searchresult.active');
+                    if (active) {
+                        window.location.href = active
+                            .querySelector("a")
+                            .href;
+                    }
+                }
+            }
+        });
+
+        const debouncedSearch = debounce(search, 200, false);
+        field = document.querySelector('#term');
+        field.addEventListener('keydown', (e) => {
+            if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') {
+                debouncedSearch();
+            }
+        });
+        resultsDiv = document.querySelector('#search-results');
+
+        const params = new URL(location.href).searchParams;
+        if (params.get('q')) {
+            field.setAttribute('value', params.get('q'));
+            toggleSearch();
+            search();
+        }
+    }
+    window.lastSearch = '';
+    async function search() {
+        let search = field
+            .value
+            .trim();
+        if (!search) 
+            return;
+        if (search == lastSearch) 
+            return;
+        console.log(`search for ${search}`);
+        window.lastSearch = search;
+
+        resultsDiv.innerHTML = loadingSvg;
+        //let searchRequest = await fetch(`/api/search?term=${encodeURIComponent(search)}`);
+        //let results = await searchRequest.json();
+        let results = offlineSearch(search);
+        let resultsHTML = '';
+        if (!results.length) {
+            let resultParagraph = document.createElement("p");
+            resultParagraph.innerText = `No results for "${search}"`;
+            resultsDiv.innerHTML = '';
+            resultsDiv.appendChild(resultParagraph);
+            return;
+        }
+        resultsHTML += '<div style="max-width:100%;">';
+        // we need to add title, url from ref
+        results.forEach(r => {
+            if(r.tags && r.tags.length > 0){
+                resultsHTML += `<div class="searchresult">
+                    <a class="search-link" href="${r.url}">${r.title}</a>
+                    <div onclick="window.location='${r.url}'">
+                        <div class="header-meta">
+                            <div class="header-tags">
+                                ${r.tags.map(tag=>'<a class="tag" href="JavaScript:Void(0);">#'+tag+'</a>').join("")}
+                            </div>
+                        </div>
+                        ${r.content}
+                    </div>
+                </div>`;
+            } else {
+                resultsHTML += `<div class="searchresult">
+                    <a class="search-link" href="${r.url}">${r.title}</a>
+                    <div onclick="window.location='${r.url}'">
+                        ${r.content}
+                    </div>
+                </div>`;
+            }
+        });
+        resultsHTML += '</div>';
+        resultsDiv.innerHTML = resultsHTML;
+    }
+
+    function truncate(str, size) {
+        //first, remove HTML
+        str = str.replaceAll(/<[^>]*>/g, '');
+        if (str.length < size) 
+            return str;
+        return str.substring(0, size - 3) + '...';
+    }
+
+    function offlineSearch(searchQuery) {
+        let data = window.docs;
+
+        let isTagSearch = searchQuery[0] === "#" && searchQuery.length > 1;
+
+        let searchResults = isTagSearch
+            ? index.search(searchQuery.substring(1), [
+                {
+                    field: "tags"
+                }
+            ])
+            : index.search(searchQuery, [
+                {
+                    field: "title",
+                    limit: 5
+                }, {
+                    field: "content",
+                    weight: 10
+                }
+            ]);
+
+        const getByField = (field) => {
+            const results = searchResults.filter((x) => x.field === field)
+            if (results.length === 0) {
+                return []
+            } else {
+                return [...results[0].result]
+            }
+        }
+        const allIds = new Set([
+            ...getByField("title"),
+            ...getByField("content"),
+            ...getByField("tags")
+        ])
+        const dataIds = [...allIds];
+        const finalResults = dataIds.map((id) => {
+            let result = data[id];
+            result.content = truncate(result.content, 400);
+            result.tags = result
+                .tags
+                .filter((x) => x != "gardenEntry" && x != "note"); //Note is automatically added by 11ty. GardenEntry is used internally to mark the home page
+
+            return result;
+        })
+        return finalResults;
+
+    }
+</script>
+    
+
+    <main class="content cm-s-obsidian ">
+      <header>
+        
+        <div class="header-meta">
+          
+            <div class="header-tags">
+              
+                
+              
+            </div>
+          </div>
+      
+      
+      </header>
+      
+      
+      <h1 id="excalidraw-with-images-not-working" tabindex="-1">Excalidraw with images - not working?</h1>
+<style> .container {font-family: sans-serif; text-align: center;} .button-wrapper button {z-index: 1;height: 40px; width: 100px; margin: 10px;padding: 5px;} .excalidraw .App-menu_top .buttonList { display: flex;} .excalidraw-wrapper { height: 800px; margin: 50px; position: relative;} :root[dir="ltr"] .excalidraw .layer-ui__wrapper .zen-mode-transition.App-menu_bottom--transition-left {transform: none;} </style><script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script><script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@excalidraw/excalidraw@0/dist/excalidraw.production.min.js"></script><div id="Digital_Garden_Features_2024-05-05_1821.07.excalidraw.md1"></div><script>(function(){const InitialData={"type":"excalidraw","version":2,"source":"https://github.com/zsviczian/obsidian-excalidraw-plugin/releases/tag/1.9.24","elements":[{"id":"ZS4vgyriIiHhlI22BkdSo","type":"freedraw","x":277.29510287580814,"y":-90.70782575936155,"width":42.23237136314651,"height":70.15086206896552,"angle":0,"strokeColor":"#FFC47C","backgroundColor":"#FFC47C","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":null,"opacity":100,"groupIds":[],"frameId":null,"roundness":null,"seed":61603246,"version":177,"versionNonce":1061453682,"isDeleted":false,"boundElements":null,"updated":1714914217332,"link":null,"locked":false,"customData":{"strokeOptions":{"highlighter":true,"constantPressure":true,"hasOutline":true,"outlineWidth":4,"options":{"thinning":1,"smoothing":0.5,"streamline":0.5,"easing":"linear","start":{"taper":0,"cap":true,"easing":"linear"},"end":{"taper":0,"cap":true,"easing":"linear"}}}},"points":[[0,0],[0,0.09654077990302312],[0,0.45123922413793593],[0,0.9226831896551744],[-0.4691709321120925,2.1574244005926744],[-1.4928778286637225,5.125269396551715],[-3.0374461206896513,9.01581862877157],[-4.912025188577559,12.728987068965523],[-6.8157327586206975,16.590344659213372],[-8.117844154094769,20.23618500808189],[-8.587015086206861,22.66971982758622],[-8.773319639008605,23.837111900592674],[-8.773319639008605,24.29508603852372],[-8.921487742456861,25.637585870150872],[-10.059688173491395,29.386680866109913],[-12.232876481681046,35.16748888739227],[-15.537446120689651,42.20547380118535],[-19.320194639008605,48.83485991379308],[-21.89747777478442,53.241745521282326],[-23.34767308728442,55.73366362473058],[-24.063846982758605,56.70123922413791],[-24.517359240301744,57.15247844827587],[-24.86302869073279,57.58576491783407],[-24.97306034482756,57.80353414601291],[-25.092015759698256,57.95170224946122],[-25.312079067887908,58.05946087015087],[-25.545528017241395,58.16721949084052],[-25.765507139008605,58.16721949084052],[-26.052919585129303,58.257004310344826],[-26.44127155172407,58.53313577586209],[-26.86784415409477,58.91029094827587],[-27.543524380387908,59.711745689655174],[-28.98934199892244,61.29670241783407],[-31.016551050646513,63.62024767645477],[-33.358028017241395,66.05155155576506],[-34.862186826508605,67.47487035290948],[-35.54914803340512,68.35264008620692],[-36.08120622306035,68.96328630118535],[-36.49422481142244,69.37411604256465],[-36.920797413793025,69.79841561153017],[-37.14077653556035,70.01616379310343],[-37.367574757543025,70.15086206896552],[-37.54941742995686,70.15086206896552],[-37.7312601023707,70.08576491783407],[-38.14208984375,69.01491362473058],[-39.01089372306035,65.39378199084052],[-40.20743534482756,58.961939318426744],[-41.20647561961209,52.0990621632543],[-41.895625673491395,45.13065732758622],[-42.23237136314651,38.454126818426744],[-42.23237136314651,34.88685344827587],[-42.23237136314651,32.13227370689657],[-42.23237136314651,29.564040611530174],[-42.23237136314651,27.693965517241395],[-42.23237136314651,25.761045258620697],[-41.998922413793025,23.8909912109375],[-41.37484846443965,21.924396383351308],[-40.08174501616372,19.885969490840523],[-38.734762257543025,17.74201491783407],[-37.05103380926721,15.312963025323285],[-34.92280105064651,12.693081559806046],[-33.3984375,11.238340180495697],[-32.50042093211209,10.724234745420262],[-32.00431034482756,10.580549568965523],[-31.541874326508605,10.580549568965523],[-31.009816136853374,11.26527983566811],[-30.706745016163723,13.463092672413808],[-30.706745016163723,15.555419921875],[-30.706745016163723,17.423221982758633],[-30.706745016163723,19.36738112877157],[-30.706745016163723,21.677456559806046],[-30.706745016163723,24.052629141971977],[-30.706745016163723,26.362704573006482],[-30.706745016163723,29.198103279903023],[-30.706745016163723,31.5081787109375],[-30.706745016163723,33.89008620689657],[-30.390204067887908,37.96696103852372],[-30.073663119612092,43.613070783943954],[-30.073663119612092,48.32300646551727],[-30.073663119612092,51.4727151804957],[-30.073663119612092,53.52012897359913],[-30.073663119612092,54.66056034482756],[-30.073663119612092,55.29814621497843],[-30.073663119612092,55.58101259428878],[-30.073663119612092,55.79876077586209],[-30.073663119612092,56.04346965921337],[-30.073663119612092,56.21409449084052],[-29.99730603448279,55.616918103448256],[-29.920948949353374,52.22925646551727],[-29.920948949353374,46.500096814385756],[-29.920948949353374,40.1221334523168],[-29.920948949353374,34.79481664197198],[-29.920948949353374,31.571044921875],[-29.920948949353374,30.1409912109375],[-29.920948949353374,29.727909482758633],[-29.920948949353374,30.637122844827587],[-29.920948949353374,33.71274750808192],[-29.920948949353374,37.56960112473058],[-30.26670258620686,40.84950414197198],[-30.780829067887908,43.15509664601291],[-30.97386853448279,44.742284314385756],[-30.99634630926721,45.79966577990302],[-31.10629377693965,46.443965517241395],[-31.21632543103442,46.726831896551744],[-31.21632543103442,46.67072164601291],[-31.21632543103442,46.10048491379308],[-31.21632543103442,45.02066776670256],[-31.21632543103442,43.76123888739227],[-31.21632543103442,42.83405172413791],[-31.21632543103442,42.20547380118535],[-31.21632543103442,42.20547380118535]],"pressures":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],"simulatePressure":false,"lastCommittedPoint":[-31.21632543103442,42.20547380118535]},{"id":"jnQTCRq2WoWBtvNRclCT-","type":"freedraw","x":227.2434965988685,"y":-84.67334300074083,"width":40.46336206896558,"height":72.90095888335125,"angle":0,"strokeColor":"#FFC47C","backgroundColor":"#FFC47C","fillStyle":"solid","strokeWidth":2,"strokeStyle":"solid","roughness":null,"opacity":100,"groupIds":[],"frameId":null,"roundness":null,"seed":406150830,"version":153,"versionNonce":1583604722,"isDeleted":false,"boundElements":null,"updated":1714914215545,"link":null,"locked":false,"customData":{"strokeOptions":{"highlighter":true,"constantPressure":true,"hasOutline":true,"outlineWidth":4,"options":{"thinning":1,"smoothing":0.5,"streamline":0.5,"easing":"linear","start":{"taper":0,"cap":true,"easing":"linear"},"end":{"taper":0,"cap":true,"easing":"linear"}}}},"points":[[0,0],[0.09656182650860501,0.09654077990302312],[0.3367456896552312,0.19306051320043593],[1.9149885506465125,0.19306051320043593],[6.3689554148706975,0.19306051320043593],[11.626734240301744,0.19306051320043593],[17.27732691271558,0.19306051320043593],[23.094019396551744,0.19306051320043593],[27.945430360991395,0.19306051320043593],[31.30615234375,0.19306051320043593],[32.39047346443965,0.19306051320043593],[32.994342672413836,0.19306051320043593],[33.49272629310349,0.19306051320043593],[33.71051656788791,0.19306051320043593],[33.93276872306035,0.19306051320043593],[34.15047481142244,0.19306051320043593],[34.388469827586164,0.19306051320043593],[34.561304552801744,0.19306051320043593],[34.73422346443965,0.19306051320043593],[35.13158337823279,0.19306051320043593],[35.924030172413836,0.4242995689655231],[36.985873518318954,1.0820691338900872],[38.045528017241395,2.1417025862068897],[38.89640018857756,3.677262931034477],[39.605754983836164,5.459763099407326],[39.947046740301744,6.941444133890087],[39.947046740301744,7.736163961476308],[39.947046740301744,8.14699370285561],[39.947046740301744,8.445581896551715],[39.947046740301744,8.66335112473061],[39.947046740301744,8.892338193696133],[39.947046740301744,9.11008637526939],[39.947046740301744,9.343577417834041],[40.0031148976293,9.619708883351308],[40.110873518318954,10.140528185614215],[40.31292093211209,11.305668271821133],[40.46336206896558,13.011853448275843],[40.46336206896558,15.420700599407297],[40.46336206896558,18.543469659213343],[40.46336206896558,22.03663793103445],[40.46336206896558,27.238243366109913],[40.46336206896558,31.119784651131425],[39.911099137931046,33.42986008216596],[38.941271551724185,36.42241379310346],[37.10264008620686,41.53646534886852],[35.21240234375,46.79866396147631],[33.62515153556035,50.60389025457974],[32.37245757004314,53.53580869477369],[31.33755387931035,55.742629478717646],[29.842403017241395,59.19987119477369],[28.142931707974185,62.955722151131425],[26.052919585129303,66.89564672009695],[24.467941810344882,69.92635792699352],[23.51831896551721,71.54947215113143],[22.74380387931035,72.38009748787712],[22.090517241379303,72.77745740167026],[21.441692483836164,72.90095888335125],[20.611109240301744,72.90095888335125],[19.964557516163836,72.55074336610991],[19.427953259698256,71.6707005994073],[18.99472992995686,70.75024834994608],[18.41771619073279,69.59634715113143],[17.654482085129303,68.35712301320044],[16.801336880387908,66.84399834994608],[15.829320447198256,64.93801774649782],[14.156788793103487,61.59303862473061],[12.158792429956861,57.32756516029096],[11.013857085129303,54.89626128098061],[9.31665880926721,50.67574336610991],[6.802262931034534,42.517510775862064],[5.006313981681046,34.77010792699352],[4.036486395474185,28.06886870285561],[3.4392679148706975,21.953566978717646],[3.2170157596982563,17.504040948275843],[3.2170157596982563,15.272532495959041],[3.2170157596982563,14.11863129714439],[3.2170157596982563,12.937769396551715],[3.2170157596982563,12.057747676454738],[3.2170157596982563,11.47854509024782],[3.2170157596982563,11.065463362068982],[3.2170157596982563,10.643415779902995],[3.2170157596982563,10.423394564924564],[3.2170157596982563,10.189924568965495],[3.2170157596982563,9.655614392510785],[4.164449757543139,7.895570952316774],[5.922262257543139,5.345269564924564],[7.453276535560349,3.199084051724128],[8.474794585129303,1.8027049097521513],[9.013587688577559,1.1898277545797384],[9.471561826508605,1.0416596511314538],[9.471561826508605,1.0416596511314538]],"pressures":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],"simulatePressure":false,"lastCommittedPoint":[9.471561826508605,1.0416596511314538]},{"type":"image","version":17,"versionNonce":1986397042,"isDeleted":false,"id":"9Q3zS48gDHGm-xA1xGq8n","fillStyle":"hachure","strokeWidth":1,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-123.59379910874642,"y":-210.71092224121094,"strokeColor":"transparent","backgroundColor":"transparent","width":245.05747126436785,"height":410,"seed":316128878,"groupIds":[],"frameId":null,"roundness":null,"boundElements":[],"updated":1714913471427,"link":null,"locked":false,"status":"pending","fileId":"1ff5cafc7f2a32518f2c5fe8e91f97acdf9e275b","scale":[1,1]},{"type":"ellipse","version":58,"versionNonce":1620418418,"isDeleted":false,"id":"kHwGKJ8o6rKFDCTGhURVe","fillStyle":"hachure","strokeWidth":1,"strokeStyle":"solid","roughness":1,"opacity":100,"angle":0,"x":-266.22304771686413,"y":-229.85451376027072,"strokeColor":"#1e1e1e","backgroundColor":"transparent","width":438.544921875,"height":535.8724060058594,"seed":407719666,"groupIds":[],"frameId":null,"roundness":{"type":2},"boundElements":[],"updated":1714914213624,"link":null,"locked":false}],"appState":{"theme":"dark","viewBackgroundColor":"#ffffff","currentItemStrokeColor":"#FFC47C","currentItemBackgroundColor":"#FFC47C","currentItemFillStyle":"solid","currentItemStrokeWidth":2,"currentItemStrokeStyle":"solid","currentItemRoughness":null,"currentItemOpacity":100,"currentItemFontFamily":1,"currentItemFontSize":20,"currentItemTextAlign":"left","currentItemStartArrowhead":null,"currentItemEndArrowhead":"arrow","scrollX":419.0141222723599,"scrollY":255.73565989527208,"zoom":{"value":1.4500000000000002},"currentItemRoundness":"round","gridSize":null,"gridColor":{"Bold":"#C9C9C9FF","Regular":"#EDEDEDFF"},"currentStrokeOptions":{"highlighter":true,"constantPressure":true,"hasOutline":true,"outlineWidth":4,"options":{"thinning":1,"smoothing":0.5,"streamline":0.5,"easing":"linear","start":{"taper":0,"cap":true,"easing":"linear"},"end":{"taper":0,"cap":true,"easing":"linear"}}},"previousGridSize":null,"frameRendering":{"enabled":true,"clip":true,"name":true,"outline":true}},"files":{}};InitialData.scrollToContent=true;App=()=>{const e=React.useRef(null),t=React.useRef(null),[n,i]=React.useState({width:void 0,height:void 0});return React.useEffect(()=>{i({width:t.current.getBoundingClientRect().width,height:t.current.getBoundingClientRect().height});const e=()=>{i({width:t.current.getBoundingClientRect().width,height:t.current.getBoundingClientRect().height})};return window.addEventListener("resize",e),()=>window.removeEventListener("resize",e)},[t]),React.createElement(React.Fragment,null,React.createElement("div",{className:"excalidraw-wrapper",ref:t},React.createElement(ExcalidrawLib.Excalidraw,{ref:e,width:n.width,height:n.height,initialData:InitialData,viewModeEnabled:!0,zenModeEnabled:!0,gridModeEnabled:!1})))},excalidrawWrapper=document.getElementById("Digital_Garden_Features_2024-05-05_1821.07.excalidraw.md1");ReactDOM.render(React.createElement(App),excalidrawWrapper);})();</script>
+<h1 id="excalidraw-transclusions" tabindex="-1">Excalidraw transclusions</h1>
+<ul>
+<li>
+<div id="🏠_Drawing_-_Start_Here_2024-05-05_1801.13.excalidraw.md2"></div><script>(function(){const InitialData={"type":"excalidraw","version":2,"source":"https://github.com/zsviczian/obsidian-excalidraw-plugin/releases/tag/1.9.24","elements":[{"id":"JD3Qgc1XMdY4BLHAUGjTy","type":"ellipse","x":-212.65625,"y":-176.83592224121094,"width":407.529296875,"height":352.82550048828125,"angle":0,"strokeColor":"#1e1e1e","backgroundColor":"transparent","fillStyle":"hachure","strokeWidth":1,"strokeStyle":"solid","roughness":1,"opacity":100,"groupIds":[],"frameId":null,"roundness":{"type":2},"seed":730006126,"version":46,"versionNonce":1116895150,"isDeleted":false,"boundElements":null,"updated":1714912276503,"link":null,"locked":false},{"id":"dhwL39SjCU0peMJtSrR-n","type":"ellipse","x":-143.3072509765625,"y":-49.01692199707031,"width":427.376220703125,"height":435.5338439941406,"angle":0,"strokeColor":"#1e1e1e","backgroundColor":"transparent","fillStyle":"hachure","strokeWidth":1,"strokeStyle":"solid","roughness":1,"opacity":100,"groupIds":[],"frameId":null,"roundness":{"type":2},"seed":84249586,"version":62,"versionNonce":1711969970,"isDeleted":false,"boundElements":null,"updated":1714912278386,"link":null,"locked":false}],"appState":{"theme":"light","viewBackgroundColor":"#ffffff","currentItemStrokeColor":"#1e1e1e","currentItemBackgroundColor":"transparent","currentItemFillStyle":"hachure","currentItemStrokeWidth":1,"currentItemStrokeStyle":"solid","currentItemRoughness":1,"currentItemOpacity":100,"currentItemFontFamily":1,"currentItemFontSize":20,"currentItemTextAlign":"left","currentItemStartArrowhead":null,"currentItemEndArrowhead":"arrow","scrollX":547.0051879882812,"scrollY":410.4557189941406,"zoom":{"value":1},"currentItemRoundness":"round","gridSize":null,"gridColor":{"Bold":"#C9C9C9FF","Regular":"#EDEDEDFF"},"currentStrokeOptions":null,"previousGridSize":null,"frameRendering":{"enabled":true,"clip":true,"name":true,"outline":true}},"files":{}};InitialData.scrollToContent=true;App=()=>{const e=React.useRef(null),t=React.useRef(null),[n,i]=React.useState({width:void 0,height:void 0});return React.useEffect(()=>{i({width:t.current.getBoundingClientRect().width,height:t.current.getBoundingClientRect().height});const e=()=>{i({width:t.current.getBoundingClientRect().width,height:t.current.getBoundingClientRect().height})};return window.addEventListener("resize",e),()=>window.removeEventListener("resize",e)},[t]),React.createElement(React.Fragment,null,React.createElement("div",{className:"excalidraw-wrapper",ref:t},React.createElement(ExcalidrawLib.Excalidraw,{ref:e,width:n.width,height:n.height,initialData:InitialData,viewModeEnabled:!0,zenModeEnabled:!0,gridModeEnabled:!1})))},excalidrawWrapper=document.getElementById("🏠_Drawing_-_Start_Here_2024-05-05_1801.13.excalidraw.md2");ReactDOM.render(React.createElement(App),excalidrawWrapper);})();</script>
+</li>
+<li>With custom width - <div id="🏠_Drawing_-_Start_Here_2024-05-05_1801.13.excalidraw.md3"></div><script>(function(){const InitialData={&quot;type&quot;:&quot;excalidraw&quot;,&quot;version&quot;:2,&quot;source&quot;:&quot;<a href="https://github.com/zsviczian/obsidian-excalidraw-plugin/releases/tag/1.9.24%22,%22elements%22:%5B%7B%22id%22:%22JD3Qgc1XMdY4BLHAUGjTy%22,%22type%22:%22ellipse%22,%22x%22:-212.65625,%22y%22:-176.83592224121094,%22width%22:407.529296875,%22height%22:352.82550048828125,%22angle%22:0,%22strokeColor%22:%22#1e1e1e%22,%22backgroundColor%22:%22transparent%22,%22fillStyle%22:%22hachure%22,%22strokeWidth%22:1,%22strokeStyle%22:%22solid%22,%22roughness%22:1,%22opacity%22:100,%22groupIds%22:%5B%5D,%22frameId%22:null,%22roundness%22:%7B%22type%22:2%7D,%22seed%22:730006126,%22version%22:46,%22versionNonce%22:1116895150,%22isDeleted%22:false,%22boundElements%22:null,%22updated%22:1714912276503,%22link%22:null,%22locked%22:false%7D,%7B%22id%22:%22dhwL39SjCU0peMJtSrR-n%22,%22type%22:%22ellipse%22,%22x%22:-143.3072509765625,%22y%22:-49.01692199707031,%22width%22:427.376220703125,%22height%22:435.5338439941406,%22angle%22:0,%22strokeColor%22:%22#1e1e1e%22,%22backgroundColor%22:%22transparent%22,%22fillStyle%22:%22hachure%22,%22strokeWidth%22:1,%22strokeStyle%22:%22solid%22,%22roughness%22:1,%22opacity%22:100,%22groupIds%22:%5B%5D,%22frameId%22:null,%22roundness%22:%7B%22type%22:2%7D,%22seed%22:84249586,%22version%22:62,%22versionNonce%22:1711969970,%22isDeleted%22:false,%22boundElements%22:null,%22updated%22:1714912278386,%22link%22:null,%22locked%22:false%7D%5D,%22appState%22:%7B%22theme%22:%22light%22,%22viewBackgroundColor%22:%22#ffffff%22,%22currentItemStrokeColor%22:%22#1e1e1e%22,%22currentItemBackgroundColor%22:%22transparent%22,%22currentItemFillStyle%22:%22hachure%22,%22currentItemStrokeWidth%22:1,%22currentItemStrokeStyle%22:%22solid%22,%22currentItemRoughness%22:1,%22currentItemOpacity%22:100,%22currentItemFontFamily%22:1,%22currentItemFontSize%22:20,%22currentItemTextAlign%22:%22left%22,%22currentItemStartArrowhead%22:null,%22currentItemEndArrowhead%22:%22arrow%22,%22scrollX%22:547.0051879882812,%22scrollY%22:410.4557189941406,%22zoom%22:%7B%22value%22:1%7D,%22currentItemRoundness%22:%22round%22,%22gridSize%22:null,%22gridColor%22:%7B%22Bold%22:%22#C9C9C9FF%22,%22Regular%22:%22#EDEDEDFF%22%7D,%22currentStrokeOptions%22:null,%22previousGridSize%22:null,%22frameRendering%22:%7B%22enabled%22:true,%22clip%22:true,%22name%22:true,%22outline%22:true%7D%7D,%22files" target="_blank" class="external-link">https://github.com/zsviczian/obsidian-excalidraw-plugin/releases/tag/1.9.24&quot;,&quot;elements&quot;:[{&quot;id&quot;:&quot;JD3Qgc1XMdY4BLHAUGjTy&quot;,&quot;type&quot;:&quot;ellipse&quot;,&quot;x&quot;:-212.65625,&quot;y&quot;:-176.83592224121094,&quot;width&quot;:407.529296875,&quot;height&quot;:352.82550048828125,&quot;angle&quot;:0,&quot;strokeColor&quot;:&quot;#1e1e1e&quot;,&quot;backgroundColor&quot;:&quot;transparent&quot;,&quot;fillStyle&quot;:&quot;hachure&quot;,&quot;strokeWidth&quot;:1,&quot;strokeStyle&quot;:&quot;solid&quot;,&quot;roughness&quot;:1,&quot;opacity&quot;:100,&quot;groupIds&quot;:[],&quot;frameId&quot;:null,&quot;roundness&quot;:{&quot;type&quot;:2},&quot;seed&quot;:730006126,&quot;version&quot;:46,&quot;versionNonce&quot;:1116895150,&quot;isDeleted&quot;:false,&quot;boundElements&quot;:null,&quot;updated&quot;:1714912276503,&quot;link&quot;:null,&quot;locked&quot;:false},{&quot;id&quot;:&quot;dhwL39SjCU0peMJtSrR-n&quot;,&quot;type&quot;:&quot;ellipse&quot;,&quot;x&quot;:-143.3072509765625,&quot;y&quot;:-49.01692199707031,&quot;width&quot;:427.376220703125,&quot;height&quot;:435.5338439941406,&quot;angle&quot;:0,&quot;strokeColor&quot;:&quot;#1e1e1e&quot;,&quot;backgroundColor&quot;:&quot;transparent&quot;,&quot;fillStyle&quot;:&quot;hachure&quot;,&quot;strokeWidth&quot;:1,&quot;strokeStyle&quot;:&quot;solid&quot;,&quot;roughness&quot;:1,&quot;opacity&quot;:100,&quot;groupIds&quot;:[],&quot;frameId&quot;:null,&quot;roundness&quot;:{&quot;type&quot;:2},&quot;seed&quot;:84249586,&quot;version&quot;:62,&quot;versionNonce&quot;:1711969970,&quot;isDeleted&quot;:false,&quot;boundElements&quot;:null,&quot;updated&quot;:1714912278386,&quot;link&quot;:null,&quot;locked&quot;:false}],&quot;appState&quot;:{&quot;theme&quot;:&quot;light&quot;,&quot;viewBackgroundColor&quot;:&quot;#ffffff&quot;,&quot;currentItemStrokeColor&quot;:&quot;#1e1e1e&quot;,&quot;currentItemBackgroundColor&quot;:&quot;transparent&quot;,&quot;currentItemFillStyle&quot;:&quot;hachure&quot;,&quot;currentItemStrokeWidth&quot;:1,&quot;currentItemStrokeStyle&quot;:&quot;solid&quot;,&quot;currentItemRoughness&quot;:1,&quot;currentItemOpacity&quot;:100,&quot;currentItemFontFamily&quot;:1,&quot;currentItemFontSize&quot;:20,&quot;currentItemTextAlign&quot;:&quot;left&quot;,&quot;currentItemStartArrowhead&quot;:null,&quot;currentItemEndArrowhead&quot;:&quot;arrow&quot;,&quot;scrollX&quot;:547.0051879882812,&quot;scrollY&quot;:410.4557189941406,&quot;zoom&quot;:{&quot;value&quot;:1},&quot;currentItemRoundness&quot;:&quot;round&quot;,&quot;gridSize&quot;:null,&quot;gridColor&quot;:{&quot;Bold&quot;:&quot;#C9C9C9FF&quot;,&quot;Regular&quot;:&quot;#EDEDEDFF&quot;},&quot;currentStrokeOptions&quot;:null,&quot;previousGridSize&quot;:null,&quot;frameRendering&quot;:{&quot;enabled&quot;:true,&quot;clip&quot;:true,&quot;name&quot;:true,&quot;outline&quot;:true}},&quot;files</a>&quot;:{}};InitialData.scrollToContent=true;App=()=&gt;{const e=React.useRef(null),t=React.useRef(null),[n,i]=React.useState({width:void 0,height:void 0});return React.useEffect(()=&gt;{i({width:t.current.getBoundingClientRect().width,height:t.current.getBoundingClientRect().height});const e=()=&gt;{i({width:t.current.getBoundingClientRect().width,height:t.current.getBoundingClientRect().height})};return window.addEventListener(&quot;resize&quot;,e),()=&gt;window.removeEventListener(&quot;resize&quot;,e)},[t]),React.createElement(React.Fragment,null,React.createElement(&quot;div&quot;,{className:&quot;excalidraw-wrapper&quot;,ref:t},React.createElement(ExcalidrawLib.Excalidraw,{ref:e,width:n.width,height:n.height,initialData:InitialData,viewModeEnabled:!0,zenModeEnabled:!0,gridModeEnabled:!1})))},excalidrawWrapper=document.getElementById(&quot;🏠_Drawing_-_Start_Here_2024-05-05_1801.13.excalidraw.md3&quot;);ReactDOM.render(React.createElement(App),excalidrawWrapper);})();</script></li>
+</ul>
+<h1 id="mermaid-support" tabindex="-1">Mermaid support</h1>
+<pre class="mermaid">graph LR;
+
+A --> B</pre><h1 id="data-view-support" tabindex="-1">Data view support</h1>
+<p class="block-language-dataview"></p>
+<h1 id="callouts" tabindex="-1">Callouts</h1>
+<div class="callout " data-callout="info"><div class="callout-title"><div class="callout-title-inner">Info</div></div>
+<div class="callout-content">
+<p>
+yo yo</p>
+</div></div>
+<h1 id="folding-callouts" tabindex="-1">Folding callouts</h1>
+<div class="callout is-collapsible " data-callout="note"><div class="callout-title"><div class="callout-title-inner"> Open by default<br></div><div class="callout-fold"><i icon-name="chevron-down"></i></div></div>
+<div class="callout-content">
+<p>
+more yo yo</p>
+</div></div>
+<div class="callout is-collapsible is-collapsed" data-callout="warn"><div class="callout-title"><div class="callout-title-inner"> Closed by default<br></div><div class="callout-fold"><i icon-name="chevron-down"></i></div></div>
+<div class="callout-content">
+<p>
+just yo yo<br>
+more stuff here</p>
+</div></div>
+<h1 id="nested-callouts" tabindex="-1">Nested callouts</h1>
+<pre><code>&gt; [!TIP] Nested callouts
+&gt; Text inside the tip callout
+&gt; &gt; [!EXAMPLE] Inner callout
+&gt; &gt; Multiple nesting layers
+&gt; &gt; &gt; [!TODO] Inner inner callout
+</code></pre>
+
+      
+      
+    </main>
+
+    
+      <aside>
+      <div class="sidebar">
+            <div class="sidebar-container">
+                  
+                  
+                        <script>
+    async function fetchGraphData() {
+        const graphData = await fetch('/graph.json').then(res => res.json());
+        const fullGraphData  = filterFullGraphData(graphData);
+        return {graphData, fullGraphData}
+    }
+
+    function getNextLevelNeighbours(existing, remaining) {
+        const keys = Object.values(existing).map((n) => n.neighbors).flat();
+        const n_remaining = Object.keys(remaining).reduce((acc, key) => {
+                if (keys.indexOf(key) != -1) {
+                    if (!remaining[key].hide) {
+                        existing[key] = remaining[key];
+                    }
+                } else {
+                    acc[key] = remaining[key];
+                }
+                return acc;
+            }, {});
+        return existing, n_remaining;
+    }
+
+    function filterLocalGraphData(graphData, depth) {
+        if (graphData == null) {
+            return null;
+        }
+        let remaining = JSON.parse(JSON.stringify(graphData.nodes));
+        let links = JSON.parse(JSON.stringify(graphData.links));
+        let currentLink = decodeURI(window.location.pathname);
+        let currentNode = remaining[currentLink] || Object.values(remaining).find((v) => v.home);
+        delete remaining[currentNode.url];
+        if (!currentNode.home) {
+            let home = Object.values(remaining).find((v) => v.home);
+            delete remaining[home.url];
+        }
+        currentNode.current = true;
+        let existing = {};
+        existing[currentNode.url] = currentNode;
+        for (let i = 0; i < depth; i++) {
+            existing, remaining = getNextLevelNeighbours(existing, remaining);
+        }
+        nodes = Object.values(existing);
+        if (!currentNode.home) {
+            nodes = nodes.filter(n => !n.home);
+        }
+        let ids = nodes.map((n) => n.id);
+        return {
+            nodes,
+            links: links.filter(function (con) {
+                return ids.indexOf(con.target) > -1 && ids.indexOf(con.source) > -1;
+            }),
+        }
+    }
+
+    function getCssVar(variable) {return getComputedStyle(document.body).getPropertyValue(variable)}
+
+    function htmlDecode(input) {
+        var doc = new DOMParser().parseFromString(input, "text/html");
+        return doc.documentElement.textContent;
+    }
+
+    function renderGraph(graphData, id, delay, fullScreen) {
+        if (graphData == null) {
+            return;
+        }
+        const el = document.getElementById(id);
+        width = el.offsetWidth;
+        height = el.offsetHeight;
+        const highlightNodes = new Set();
+        let hoverNode = null;
+        const color = getCssVar("--graph-main");
+        const mutedColor = getCssVar("--graph-muted");
+        let Graph = ForceGraph()
+        (el)
+            .graphData(graphData)
+            .nodeId('id')
+            .nodeLabel('title')
+            .linkSource('source')
+            .linkTarget('target')
+            .d3AlphaDecay(0.10)
+            .width(width)
+            .height(height)
+            .linkDirectionalArrowLength(2)
+            .linkDirectionalArrowRelPos(0.5)
+            .autoPauseRedraw(false)
+            .linkColor((link) => {
+                if (hoverNode == null) {
+                    return color;
+                }
+                if (link.source.id == hoverNode.id || link.target.id == hoverNode.id) {
+                    return color;
+                } else {
+                    return mutedColor;
+                }
+                
+            })
+            .nodeCanvasObject((node, ctx) => {
+                const numberOfNeighbours = (node.neighbors && node.neighbors.length) || 2;
+                const nodeR = Math.min(7, Math.max(numberOfNeighbours / 2, 2));
+                
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, nodeR, 0, 2 * Math.PI, false);
+                if (hoverNode == null) {
+                    ctx.fillStyle = color;
+                } else {
+                    if (node == hoverNode || highlightNodes.has(node.url)) {
+                        ctx.fillStyle = color;
+                    } else {
+                        ctx.fillStyle = mutedColor;
+                    }
+                }
+                 
+                ctx.fill();
+                
+                if (node.current) {
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, nodeR + 1, 0, 2 * Math.PI, false);
+                    ctx.lineWidth = 0.5;
+                    ctx.strokeStyle = color;
+                    ctx.stroke();
+                }
+
+                const label = htmlDecode(node.title)
+                const fontSize = 3.5;
+                ctx.font = `${fontSize}px Sans-Serif`;
+
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(label, node.x, node.y + nodeR + 2);
+            })
+            .onNodeClick(node => {
+                window.location = node.url;
+            })
+            .onNodeHover(node => {
+                highlightNodes.clear();
+                if (node) {
+                highlightNodes.add(node);
+                node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
+                }
+                hoverNode = node || null;
+                
+            });
+            if (fullScreen || (delay != null && graphData.nodes.length > 4)) {
+                setTimeout(() => {
+                    Graph.zoomToFit(5, 75);
+                }, delay || 200);
+            }
+        return Graph;
+    }
+
+    function renderLocalGraph(graphData, depth, fullScreen) {
+        if (window.graph){
+            window.graph._destructor();
+        }
+        const data = filterLocalGraphData(graphData, depth);
+        return renderGraph(data, 'link-graph', null, fullScreen);
+    }
+
+    function filterFullGraphData(graphData) {
+        if (graphData == null) {
+            return null;
+        }
+        graphData = JSON.parse(JSON.stringify(graphData));
+        const hiddens = Object.values(graphData.nodes).filter((n) => n.hide).map((n) => n.id);
+        const data = {
+            links: JSON.parse(JSON.stringify(graphData.links)).filter((l) => hiddens.indexOf(l.source) == -1 && hiddens.indexOf(l.target) == -1),
+            nodes: [...Object.values(graphData.nodes).filter((n) => !n.hide)]
+        }
+        return data
+    }
+
+    function openFullGraph(fullGraphData) {
+        lucide.createIcons({
+                attrs: {
+                    class: ["svg-icon"]
+                }
+            });
+        return renderGraph(fullGraphData, "full-graph-container", 200, false);;
+    }
+
+    function closefullGraph(fullGraph) {
+        if (fullGraph) {
+            fullGraph._destructor();
+        }
+        return null;
+    }
+</script>
+<div  x-init="{graphData, fullGraphData} = await fetchGraphData();" x-data="{ graphData: null, depth: 1, graph: null, fullGraph: null, showFullGraph: false, fullScreen: false, fullGraphData: null}" id="graph-component" x-bind:class="fullScreen ? 'graph graph-fs' : 'graph'" v-scope>
+    <div class="graph-title-container">
+        <div class="graph-title">Connected Pages</div>
+        <div id="graph-controls">
+                <div class="depth-control">
+                    <label for="graph-depth">Depth</label>
+                    <div class="slider">
+                            <input x-model.number="depth" name="graph-depth" list="depthmarkers" type="range" step="1" min="1" max="3" id="graph-depth">
+                    <datalist id="depthmarkers">
+                            <option value="1" label="1"></option>
+                            <option value="2" label="2"></option>
+                            <option value="3" label="3"></option>
+                    </datalist>
+                    </div>
+                    <span id="depth-display" x-text="depth"></span>
+                </div>
+                <div class="ctrl-right">
+                    <span id="global-graph-btn" x-on:click="showFullGraph = true; setTimeout(() => {fullGraph = openFullGraph(fullGraphData)}, 100)"><i  icon-name="globe" aria-hidden="true"></i></span>
+                    <span  id="graph-fs-btn"  x-on:click="fullScreen = !fullScreen"><i  icon-name="expand" aria-hidden="true"></i></span>
+                </div>
+        </div>
+    </div>
+    <div x-effect="window.graph = renderLocalGraph(graphData, depth, fullScreen)" id="link-graph" ></div>
+    <div x-show="showFullGraph" id="full-graph" class="show" style="display: none;">
+        <span id="full-graph-close" x-on:click="fullGraph = closefullGraph(fullGraph); showFullGraph = false;"><i icon-name="x" aria-hidden="true"></i></span><div id="full-graph-container"></div>
+    </div>
+</div>
+                  
+
+                  
+                        
+                        
+                              <div class="toc">
+                                    <div class="toc-title-container">
+                                          <div class="toc-title">
+                                                On this page
+                                          </div>
+                                    </div>
+                                    <div class="toc-container">
+                                          <nav class="toc">
+                <ol>
+                    
+                    <li><a href="#excalidraw-with-images-not-working">Excalidraw with images - not working?</a>
+            		</li>
+
+                    <li><a href="#excalidraw-transclusions">Excalidraw transclusions</a>
+            		</li>
+
+                    <li><a href="#mermaid-support">Mermaid support</a>
+            		</li>
+
+                    <li><a href="#data-view-support">Data view support</a>
+            		</li>
+
+                    <li><a href="#callouts">Callouts</a>
+            		</li>
+
+                    <li><a href="#folding-callouts">Folding callouts</a>
+            		</li>
+
+                    <li><a href="#nested-callouts">Nested callouts</a>
+            		</li>
+                </ol>
+            </nav>
+                                    </div>
+                              </div>
+                        
+
+                  
+
+                        
+                              
+                              <div class="backlinks">
+                                    <div class="backlink-title" style="margin: 4px 0 !important;">Pages mentioning this page</div>
+                                          <div class="backlink-list"><div class="backlink-card">
+                                                            <span class="no-backlinks-message">No other pages mentions this page</span>
+                                                      </div></div>
+                              </div>
+                        
+                  
+                  
+            </div>
+      </div>
+</aside>
+    
+
+    
+      
+<style>
+#tooltip-wrapper {
+  background: var(--background-primary);
+  padding: 1em;
+  border-radius: 4px;
+  overflow: hidden;
+  position: fixed;
+  width: 80%;
+  max-width: 400px;
+  height: auto;
+  max-height: 300px;
+  font-size: 0.8em;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  opacity: 0;
+  transition: opacity 100ms;
+  unicode-bidi: plaintext;
+  overflow-y: scroll;
+  z-index: 10;
+}
+
+#tooltip-wrapper:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  width: 100%;
+  unicode-bidi: plaintext;
+  height: 75px;
+}
+</style>
+<div style="opacity: 0; display: none;" id='tooltip-wrapper'>
+  <div id='tooltip-content'>
+  </div>
+</div>
+
+<iframe style="display: none; height: 0; width: 0;" id='link-preview-iframe' src="">
+</iframe>
+
+<script>
+  var opacityTimeout;
+  var contentTimeout;
+  var transitionDurationMs = 100;
+
+  var iframe = document.getElementById('link-preview-iframe')
+  var tooltipWrapper = document.getElementById('tooltip-wrapper')
+  var tooltipContent = document.getElementById('tooltip-content')
+
+  var linkHistories = {};
+
+  function hideTooltip() {
+    opacityTimeout = setTimeout(function () {
+      tooltipWrapper.style.opacity = 0;
+      contentTimeout = setTimeout(function () {
+        tooltipContent.innerHTML = '';
+        tooltipWrapper.style.display = 'none';
+      }, transitionDurationMs + 1);
+    }, transitionDurationMs)
+  }
+
+  function showTooltip(event) {
+    var elem = event.target;
+    var elem_props = elem.getClientRects()[elem.getClientRects().length - 1];
+    var top = window.pageYOffset || document.documentElement.scrollTop;
+    var url = event.target.getAttribute("href");
+    if (url.indexOf("http") === -1 || url.indexOf(window.location.host) !== -1) {
+      let contentURL = url.split('#')[0]
+      if (!linkHistories[contentURL]) {
+        iframe.src = contentURL
+        iframe.onload = function () {
+          tooltipContentHtml = ''
+          tooltipContentHtml += '<div style="font-weight: bold; unicode-bidi: plaintext;">' + iframe.contentWindow.document.querySelector('h1').innerHTML + '</div>'
+          tooltipContentHtml += iframe.contentWindow.document.querySelector('.content').innerHTML
+          tooltipContent.innerHTML = tooltipContentHtml
+          linkHistories[contentURL] = tooltipContentHtml
+          tooltipWrapper.style.display = 'block';
+          tooltipWrapper.scrollTop = 0;
+          setTimeout(function () {
+            tooltipWrapper.style.opacity = 1;
+            if (url.indexOf("#") != -1) {
+              let id = url.split('#')[1];
+              const focus = tooltipWrapper.querySelector(`[id='${id}']`);
+              focus.classList.add('referred');
+              console.log(focus);
+              focus.scrollIntoView({behavior: 'smooth'}, true)
+            } else {
+              tooltipWrapper.scroll(0, 0);
+            }
+          }, 1)
+        }
+      } else {
+        tooltipContent.innerHTML = linkHistories[contentURL]
+        tooltipWrapper.style.display = 'block';
+        setTimeout(function () {
+          tooltipWrapper.style.opacity = 1;
+          if (url.indexOf("#") != -1) {
+              let id = url.split('#')[1];
+              const focus = tooltipWrapper.querySelector(`[id='${id}']`);
+              focus.classList.add('referred');
+              focus.scrollIntoView({behavior: 'smooth'}, true)
+          } else {
+              tooltipWrapper.scroll(0, 0);
+          }
+        }, 1)
+      }
+
+      function getInnerWidth(elem) {
+        var style = window.getComputedStyle(elem);
+        return elem.offsetWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - parseFloat(style.borderLeft) - parseFloat(style.borderRight) - parseFloat(style.marginLeft) - parseFloat(style.marginRight);
+      }
+
+      tooltipWrapper.style.left = elem_props.left - (tooltipWrapper.offsetWidth / 2) + (elem_props.width / 2) + "px";
+
+      if ((window.innerHeight - elem_props.top) < (tooltipWrapper.offsetHeight)) {
+        tooltipWrapper.style.top = elem_props.top + top - tooltipWrapper.offsetHeight - 10 + "px";
+      } else if ((window.innerHeight - elem_props.top) > (tooltipWrapper.offsetHeight)) {
+        tooltipWrapper.style.top = elem_props.top + top + 35 + "px";
+      }
+
+      if ((elem_props.left + (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+        tooltipWrapper.style.left = "10px";
+      } else if ((document.body.clientWidth - elem_props.left - (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+        tooltipWrapper.style.left = document.body.clientWidth - tooltipWrapper.offsetWidth - 20 + "px";
+      }
+    }
+  }
+
+  function setupListeners(linkElement) {
+    linkElement.addEventListener('mouseleave', function (_event) {
+      hideTooltip();
+    });
+
+    tooltipWrapper.addEventListener('mouseleave', function (_event) {
+      hideTooltip();
+    });
+
+    linkElement.addEventListener('mouseenter', function (event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+      showTooltip(event);
+    });
+
+    tooltipWrapper.addEventListener('mouseenter', function (event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+    });
+  }
+
+  window.addEventListener("load", function(event) 
+  {
+    document.querySelectorAll('.internal-link').forEach(setupListeners);
+    document.querySelectorAll('.backlink-card a').forEach(setupListeners);
+  });
+</script>
+
+    
+        <script>
+      if (window.location.hash) {
+        document.getElementById(window.location.hash.slice(1)).classList.add('referred');
+      }
+      window.addEventListener('hashchange', (evt) => {
+        const oldParts = evt.oldURL.split("#");
+        if (oldParts[1]) {
+          document.getElementById(oldParts[1]).classList.remove('referred');
+        }
+        const newParts = evt.newURL.split("#");
+        if (newParts[1]) {
+          document.getElementById(newParts[1]).classList.add('referred');
+        }
+      }, false);
+      const url_parts = window.location.href.split("#")
+      const url = url_parts[0];
+      const referrence = url_parts[1];
+      document.querySelectorAll(".cm-s-obsidian > *[id]").forEach(function (el) {
+        el.ondblclick = function(evt) {
+          const ref_url = url + '#' + evt.target.id
+          navigator.clipboard.writeText(ref_url);
+      }
+      });
+
+      
+    </script>
+    <script src=" https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js "></script>
+<script defer>
+    TIMESTAMP_FORMAT = "MMM dd, yyyy h:mm a";
+    document.querySelectorAll('.human-date').forEach(function (el) {
+        el.innerHTML = luxon.DateTime.fromISO(el.getAttribute('data-date') || el.innerText).toFormat(TIMESTAMP_FORMAT);
+      });
+</script>
+    
+    
+    <script>
+lucide.createIcons({
+            attrs: {
+                class: ["svg-icon"]
+            }
+        });
+</script>
+  </body>
+</html>
